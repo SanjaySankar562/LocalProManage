@@ -9,9 +9,15 @@ async function post(url, body) {
     body: JSON.stringify(body),
   });
   if (!response.ok) {
-    const error = await response.json();
+    const body = await response.text();
+    let error;
+    try {
+      error = JSON.parse(body);
+    } catch {
+      throw new Error(`Request failed (${response.status}): ${response.statusText}`);
+    }
     const message = Array.isArray(error.detail) ? error.detail.map(item => item.msg).join("; ") : error.detail || response.statusText;
-  throw new Error(message);
+    throw new Error(message);
   }
   return response.json();
 }
