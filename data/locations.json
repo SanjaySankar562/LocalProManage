@@ -1,0 +1,41 @@
+[
+  {
+    "id": "adyar",
+    "name": "Brew & Co Adyar",
+    "city": "Chennai",
+    "address": "12 Lattice Bridge Road, Adyar, Chennai",
+    "phone": "+91 90000 00001",
+    "hours": "Monday to Saturday 8am to 10pm; Sunday 9am to 9pm",
+    "services": ["dine-in", "takeaway", "free wifi", "parking for 10 bikes"],
+    "faq": [
+      {"q": "Can I book the cafe for a birthday party?", "a": "Yes. Parties of up to 25 people can be booked 3 days ahead by calling the store."},
+      {"q": "Do you have vegan options?", "a": "Yes. We serve oat milk coffee and a vegan sandwich."}
+    ]
+  },
+  {
+    "id": "indiranagar",
+    "name": "Brew & Co Indiranagar",
+    "city": "Bengaluru",
+    "address": "88 100 Feet Road, Indiranagar, Bengaluru",
+    "phone": "+91 90000 00002",
+    "hours": "Monday to Sunday 7am to 11pm",
+    "services": ["dine-in", "takeaway", "free wifi", "power sockets at every table", "no parking, use the public lot nearby"],
+    "faq": [
+      {"q": "Can I book the cafe for a birthday party?", "a": "No. This store does not take party bookings."},
+      {"q": "Do you have vegan options?", "a": "Yes. We serve oat milk coffee and vegan brownies."}
+    ]
+  },
+  {
+    "id": "banjara",
+    "name": "Brew & Co Banjara Hills",
+    "city": "Hyderabad",
+    "address": "5 Road No 12, Banjara Hills, Hyderabad",
+    "phone": "+91 90000 00003",
+    "hours": "Tuesday to Sunday 10am to 10pm; closed on Monday",
+    "services": ["dine-in", "takeaway", "outdoor seating", "valet parking"],
+    "faq": [
+      {"q": "Can I book the cafe for a birthday party?", "a": "Yes. Parties of up to 40 people can be booked 5 days ahead."},
+      {"q": "Do you have free wifi?", "a": "No. This store does not offer wifi."}
+    ]
+  }
+]

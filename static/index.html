@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LocalBot</title>
+<link rel="stylesheet" href="/static/styles.css">
+</head><body>
+<h1>LocalBot: a mini ProManage</h1>
+<label>Store <select id="loc"></select></label>
+
+<h2>1. Customer chatbot (answers from this store's facts)</h2>
+<input id="q" placeholder="Ask: Is there parking? Is it open on Sunday?">
+<button id="ask-button" type="button">Ask</button>
+<div id="answer" class="box"></div>
+
+<h2>2. Review reply assistant</h2>
+<textarea id="rev" rows="3" placeholder="Paste a customer review"></textarea>
+<label>Stars <select id="stars"><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select></label>
+<button id="reply-button" type="button">Draft reply</button>
+<div id="reply" class="box"></div>
+<script src="/static/app.js" defer></script>
+</body></html>
