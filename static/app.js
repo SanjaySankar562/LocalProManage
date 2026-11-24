@@ -14,7 +14,7 @@ async function post(url, body) {
     try {
       error = JSON.parse(body);
     } catch {
-      throw new Error(`Request failed (${response.status}): ${response.statusText}`);
+      throw new Error(`Request failed (${response.status}): ${response.statusText || "Server error"}`);
     }
     const message = Array.isArray(error.detail) ? error.detail.map(item => item.msg).join("; ") : error.detail || response.statusText;
     throw new Error(message);
