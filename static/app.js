@@ -31,7 +31,7 @@ fetch("/locations")
       .join("");
   });
 
-// Ask RAG about the selected store and show the supporting passages.
+// Ask RAG about the selected store and show only the answer.
 async function ask() {
   $("answer").textContent = "Thinking...";
   try {
@@ -39,10 +39,7 @@ async function ask() {
       question: $("q").value,
       location: $("loc").value,
     });
-    $("answer").textContent = data.answer +
-      (data.sources.length
-        ? "\n\nSources:\n- " + data.sources.map(source => source.text).join("\n- ")
-        : "");
+    $("answer").textContent = data.answer;
   } catch (error) {
     $("answer").textContent = "Error: " + error.message;
   }
