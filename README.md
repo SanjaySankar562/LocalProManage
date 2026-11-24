@@ -1,4 +1,4 @@
-# LocalBot: a mini ProManage (interview demo)
+# LocalBot: a mini ProManage
 
 ProManage helps multi-location brands (banks, pharmacies, cafes) manage how
 customers find them online. Two of its AI features are:
