@@ -51,10 +51,3 @@ a review and press "Draft reply".
 7. app/main.py              the web API (FastAPI)
 8. static/index.html        the web page
 9. tests/test_localbot.py   what each part must do
-
-## Say this in the interview
-"ProManage manages local presence for multi-location brands, so I built a tiny
-version: a chatbot that answers from each store's own facts using retrieval,
-and a review-reply drafter that sends unhappy reviews to a person. I used
-keyword search first, then embeddings, and I wrote tests." Say only what you
-ran yourself.
