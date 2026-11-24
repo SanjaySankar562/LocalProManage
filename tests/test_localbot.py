@@ -7,7 +7,7 @@ from unittest.mock import patch
 from app import main
 from app.chat import NOT_SURE, answer_question, build_prompt
 from app.knowledge import build_passages, load_locations
-from app.llm import NoLLM, get_llm
+from app.llm import NoLLM, OllamaLLM, OpenAICompatibleLLM, OpenRouterLLM, get_llm
 from app.retrievers import KeywordRetriever, SemanticRetriever, tokens
 from app.reviews import classify_sentiment, draft_reply
 from tests.fakes import FakeEmbedder, FakeLLM
@@ -85,6 +85,35 @@ def test_openrouter_uses_server_side_key():
     assert args[0] == "https://openrouter.ai/api/v1/chat/completions"
     assert kwargs["headers"]["Authorization"] == "Bearer test-key"
     assert kwargs["json"]["model"] == "test/model"
+
+
+def test_openai_compatible_uses_configured_endpoint():
+    with patch.dict("os.environ", {
+        "LLM": "openai-compatible",
+        "LLM_API_KEY": "test-key",
+        "LLM_API_BASE_URL": "https://api.example.test/v1/",
+        "LLM_API_MODEL": "test/model",
+    }, clear=True):
+        llm = get_llm()
+    assert isinstance(llm, OpenAICompatibleLLM)
+    with patch("app.llm.requests.post") as post:
+        post.return_value.json.return_value = {
+            "choices": [{"message": {"content": "AI answer"}}]
+        }
+        assert llm.generate("test prompt") == "AI answer"
+    args, kwargs = post.call_args
+    assert args[0] == "https://api.example.test/v1/chat/completions"
+    assert kwargs["headers"]["Authorization"] == "Bearer test-key"
+    assert kwargs["json"]["model"] == "test/model"
+
+
+def test_openrouter_defaults_when_key_is_configured():
+    with patch.dict("os.environ", {}, clear=True):
+        assert isinstance(get_llm(), OllamaLLM)
+    with patch.dict("os.environ", {"OPENROUTER_API_KEY": "test-key"}, clear=True):
+        llm = get_llm()
+    assert isinstance(llm, OpenRouterLLM)
+    assert llm.model == "google/gemma-4-31b-it:free"
 
 
 def test_sentiment_rules():

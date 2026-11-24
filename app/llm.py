@@ -30,19 +30,20 @@ class OllamaLLM:
         return r.json()["response"].strip()
 
 
-class OpenRouterLLM:
-    """Send prompts to an OpenAI-compatible model through OpenRouter."""
+class OpenAICompatibleLLM:
+    """Send prompts to an OpenAI-compatible chat completions API."""
     is_real = True
 
     def __init__(self):
-        self.api_key = os.getenv("OPENROUTER_API_KEY")
-        self.model = os.getenv("OPENROUTER_MODEL")
+        self.api_key = os.getenv("LLM_API_KEY")
+        self.base_url = os.getenv("LLM_API_BASE_URL", "https://api.openai.com/v1").rstrip("/")
+        self.model = os.getenv("LLM_API_MODEL")
         if not self.api_key or not self.model:
-            raise RuntimeError("Set OPENROUTER_API_KEY and OPENROUTER_MODEL to use OpenRouter.")
+            raise RuntimeError("Set LLM_API_KEY and LLM_API_MODEL to use an API provider.")
 
     def generate(self, prompt: str) -> str:
         r = requests.post(
-            "https://openrouter.ai/api/v1/chat/completions",
+            f"{self.base_url}/chat/completions",
             headers={"Authorization": f"Bearer {self.api_key}"},
             json={
                 "model": self.model,
@@ -53,6 +54,17 @@ class OpenRouterLLM:
         )
         r.raise_for_status()
         return r.json()["choices"][0]["message"]["content"].strip()
+
+
+class OpenRouterLLM(OpenAICompatibleLLM):
+    """Send prompts to OpenRouter using its existing environment variables."""
+
+    def __init__(self):
+        self.api_key = os.getenv("OPENROUTER_API_KEY")
+        self.base_url = "https://openrouter.ai/api/v1"
+        self.model = os.getenv("OPENROUTER_MODEL") or "google/gemma-4-31b-it:free"
+        if not self.api_key:
+            raise RuntimeError("Set OPENROUTER_API_KEY to use OpenRouter.")
 
 
 class NoLLM:
@@ -67,9 +79,13 @@ class NoLLM:
 
 
 def get_llm():
-    mode = os.getenv("LLM", "ollama").lower()
+    mode = os.getenv("LLM", "").lower()
+    if not mode:
+        mode = "openrouter" if os.getenv("OPENROUTER_API_KEY") else "ollama"
     if mode == "none":
         return NoLLM()
     if mode == "openrouter":
         return OpenRouterLLM()
+    if mode == "openai-compatible":
+        return OpenAICompatibleLLM()
     return OllamaLLM()

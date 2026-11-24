@@ -57,27 +57,42 @@ Ollama runs the language model on your computer, so no API key is needed.
 Semantic search downloads its embedding model the first time it runs. You can
 choose another Ollama model with `OLLAMA_MODEL`.
 
-### Cloud AI with an OpenRouter API key
+### Cloud AI with an OpenAI-compatible API
 
-OpenRouter is the cloud AI provider currently supported by this project. Create
-an API key in your OpenRouter account, then set it in PowerShell:
+The app supports providers that implement the OpenAI-compatible Chat
+Completions API. Set the key, model ID, and (for providers other than OpenAI)
+the provider's API base URL:
 
 ```powershell
 $env:SEARCH = "semantic"
+$env:LLM = "openai-compatible"
+$env:LLM_API_KEY = "your-provider-api-key"
+$env:LLM_API_MODEL = "your-model-id"
+$env:LLM_API_BASE_URL = "https://api.openai.com/v1"
+python -m uvicorn app.main:app --reload
+```
+
+For OpenAI, the base URL defaults to `https://api.openai.com/v1`. For another
+compatible provider, replace it with that provider's documented base URL. The
+model ID must be available to your account. A key alone is not enough: the
+provider must support `POST /chat/completions` with Bearer authentication.
+
+OpenRouter remains supported with its own settings:
+
+```powershell
 $env:LLM = "openrouter"
 $env:OPENROUTER_API_KEY = "your-openrouter-api-key"
 $env:OPENROUTER_MODEL = "openrouter/free"
 python -m uvicorn app.main:app --reload
 ```
 
-You can replace `openrouter/free` with another model ID supported by OpenRouter.
-The key is read from the environment; never put it in source code or commit it
-to GitHub. Other providers' API keys (such as OpenAI or Anthropic) are not
-interchangeable with an OpenRouter key and are not currently supported.
+Keys are read from environment variables; never put them in source code or
+commit them to GitHub. Providers' non-compatible native APIs are not supported
+by the generic mode.
 
 `SEARCH` can be `keyword` or `semantic`. Semantic search uses a local embedding
-model; choosing OpenRouter only changes the language model that writes the
-answer.
+model; choosing a cloud provider only changes the language model that writes
+the answer.
 
 ## Run tests
 
