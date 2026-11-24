@@ -33,9 +33,9 @@ Then start it in one of three modes:
 
 ## Deploy on Render with OpenRouter
 1. Push this project to GitHub, then create a Render Web Service from that repository.
-2. Render can use `render.yaml` as a Blueprint; provide `OPENROUTER_API_KEY` and
-   `OPENROUTER_MODEL` when prompted. Keep the key in Render's environment settings,
-   never in the repository or browser code.
+2. Render can use `render.yaml` as a Blueprint; provide `OPENROUTER_API_KEY` when
+   prompted. It defaults to a free OpenRouter model. Keep the key in Render's
+   environment settings, never in the repository or browser code.
 3. Deploy and open the Render URL.
 
 Open http://localhost:8000 . Choose a store, ask "Is there parking?", then paste

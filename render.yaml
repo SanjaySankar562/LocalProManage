@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: localbot
+    name: LocalProManage
     runtime: python
     plan: free
     buildCommand: pip install -r requirements.txt
@@ -13,4 +13,4 @@ services:
       - key: OPENROUTER_API_KEY
         sync: false
       - key: OPENROUTER_MODEL
-        sync: false
+        value: google/gemma-4-31b-it:free
